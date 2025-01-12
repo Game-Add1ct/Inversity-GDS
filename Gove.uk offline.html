@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Government Services Portal</title>
+    <style>
+        /* Previous styles remain the same */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f3f2f1;
+        }
+
+        .top-bar {
+            background-color: #1d70b8;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .user-account {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .user-account:hover {
+            text-decoration: underline;
+        }
+
+        .search-container {
+            background-color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #dee0e2;
+        }
+
+        .search-bar {
+            width: 50%;
+            max-width: 600px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #0b0c0c;
+            border-right: none;
+        }
+
+        .search-button {
+            padding: 10px 20px;
+            background-color: #00703c;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .main-content {
+            display: flex;
+            margin: 20px;
+            gap: 20px;
+        }
+
+        .sidebar {
+            width: 250px;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #dee0e2;
+        }
+
+        .sidebar-item {
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            color: #1d70b8;
+        }
+
+        .sidebar-item:hover {
+            background-color: #f8f8f8;
+        }
+
+        .content-grid {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .info-box {
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #dee0e2;
+        }
+
+        .info-box h2 {
+            color: #0b0c0c;
+            margin-bottom: 10px;
+        }
+
+        .info-box p {
+            color: #505a5f;
+            line-height: 1.5;
+        }
+
+        .home-button {
+            padding: 5px 15px;
+            background-color:1px solid #1d70b8;
+            border: 1px solid #1d70b8;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+        .home-button:hover {
+            background-color: #1D65B8;
+        }
+
+        .login-container {
+            display: none;
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 30px;
+            background-color: white;
+            border: 1px solid #dee0e2;
+        }
+
+        .login-container h1 {
+            margin-bottom: 20px;
+            color: #0b0c0c;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #0b0c0c;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #0b0c0c;
+            font-size: 16px;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 10px;
+            background-color: #00703c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-button:hover {
+            background-color: #005a30;
+        }
+
+        .forgotten-password {
+            display: block;
+            margin-top: 20px;
+            color: #1d70b8;
+            text-decoration: none;
+        }
+
+        .forgotten-password:hover {
+            text-decoration: underline;
+        }
+
+        .main-page {
+            display: block;
+        }
+    </style>
+    <script>
+        function showLogin() {
+            document.querySelector('.main-page').style.display = 'none';
+            document.querySelector('.login-container').style.display = 'block';
+        }
+        
+        function showMain() {
+            document.querySelector('.main-page').style.display = 'block';
+            document.querySelector('.login-container').style.display = 'none';
+        }
+
+        function handleLogin(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const accountText = document.querySelector('.user-account span');
+            accountText.textContent = username;
+            showMain();
+        }
+
+        function handleSearch() {
+            const searchTerm = document.querySelector('.search-bar').value;
+            if (searchTerm) {
+                window.location.href = `https://www.gov.uk/search/all?keywords=${encodeURIComponent(searchTerm)}`;
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="top-bar">
+        <div style="display: flex; gap: 20px; align-items: center;">
+            <div class="logo">GOV.UK offline</div>
+            <a href="#" class="home-button" onclick="showMain()">Home</a>
+        </div>
+        <a class="user-account" onclick="showLogin()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+            </svg>
+            <span>Guest</span>
+        </a>
+    </div>
+
+    <div class="main-page">
+        <div class="search-container">
+            <input type="text" class="search-bar" placeholder="Search our database">
+            <button class="search-button" onclick="handleSearch()">Search</button>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="sidebar-item">Benefits</div>
+                <div class="sidebar-item">Taxes</div>
+                <div class="sidebar-item">Healthcare</div>
+                <div class="sidebar-item">Education</div>
+                <div class="sidebar-item">Immigration</div>
+                <div class="sidebar-item">Business</div>
+                <div class="sidebar-item">Transport</div>
+            </div>
+
+            <div class="content-grid">
+                <div class="info-box">
+                    <h2>Income Tax</h2>
+                    <p>Income tax is a tax imposed by governments on the income of individuals, businesses, and other entities, usually based on earnings like wages, interest, and profits. It can be progressive, meaning higher income is taxed at higher rates, or flat, where everyone pays the same rate. Taxable income is the amount of income that is subject to tax after deductions (like mortgage interest or business expenses) and credits (which reduce the tax owed). Individuals must file an income tax return annually, reporting income and claiming deductions or credits, and paying any taxes owed. In some countries, like the U.S., tax is withheld by employers and paid directly to the government. Tax rates and rules vary by country, and failure to file taxes properly can result in penalties. Avoiding taxes legally through deductions or credits is different from illegal tax evasion, which can lead to serious consequences.</p>
+                </div>
+                <div class="info-box">
+                    <h2>Political Parties</h2>
+                    <p>Political parties are organized groups of people with shared beliefs who work to influence government policies, run candidates for office, and gain political power. They play a key role in democracies by offering voters choices in elections and shaping public policy. Parties are often defined by their ideologies, which can range from liberal (left-wing) to conservative (right-wing). In some countries, two major parties dominate elections (like the U.S.), while others have many parties (like in Europe). Parties organize campaigns, raise funds, and develop platforms to guide their policies. They are vital in representing different viewpoints, organizing political debate, and holding governments accountable.</p>
+                </div>
+                <div class="info-box">
+                    <h2>Latest Updates</h2>
+                    <p>In January 2025, Prime Minister Rishi Sunak outlined measures to boost economic growth and support public services, focusing on reducing inflation and increasing public sector pay. The Home Secretary introduced a new immigration policy to improve border security and asylum procedures. The UK government reaffirmed its commitment to achieving net-zero emissions by 2050 with a new climate action plan, investing in green technologies and energy efficiency. A multi-billion-pound infrastructure investment was announced for transport and affordable housing projects. The Health Secretary presented a reform plan to reduce NHS waiting times and improve care. The UK continues its support for Ukraine, providing military aid and sanctions on Russia. Education reforms were also introduced, focusing on reducing inequality and improving teacher retention.</p>
+                </div>
+                <div class="info-box">
+                    <h2>Popular Services</h2>
+                    <p>Quick access to the most frequently used services
+                        <br><a href="https://www.gov.uk/">GOV.UK</a>
+                        <br><a href="https://www.nationalarchives.gov.uk/webarchive/find-a-website/atoz/">National Archives</a>
+                        <br><a href="https://www.legislation.gov.uk/">Legislation</a>
+                        <br><a href="https://www.wikipedia.org/">Wikipedia</a>
+                        <br><a href="https://www.youtube.com/">Youtube</a>
+                        <br><a href="https://www.google.com/">Google</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <h1>Sign in</h1>
+        <form onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="login-button">Sign in</button>
+            <a href="#" class="forgotten-password">Forgotten your password?</a>
+        </form>
+    </div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Government Services Portal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        }
+
+        .content-page {
+            display: none;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #dee0e2;
+            margin-bottom: 20px;
+        }
+
+        .content-page.active {
+            display: block;
+        }
+
+        .content-page h1 {
+            color: #0b0c0c;
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        .content-page p {
+            color: #505a5f;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .sidebar-item.active {
+            background-color: #1d70b8;
+            color: white;
+        }
+    </style>
+    <script>
+        const pageContent = {
+            benefits: {
+                title: "Benefits Guide",
+                content: `Benefits are financial support provided by the government to help with living costs, housing, childcare, and other needs. Common benefits include:
+                Universal Credit: A payment to help with living costs for those on low income or out of work.
+                
+                Housing Benefit: Help with rent payments for those on low income.
+                
+                Child Benefit: Regular payments to help with the cost of raising children.
+                
+                Personal Independence Payment (PIP): Extra help with costs if you have a long-term health condition or disability.
+                
+                State Pension: Regular payments from the government that you can claim when you reach State Pension age.`
+            },
+            taxes: {
+                title: "Tax Information",
+                content: `Understanding your tax obligations is essential. Key areas include:
+                Income Tax: Tax on your earnings, with different rates depending on how much you earn.
+                
+                National Insurance: Contributions that qualify you for certain benefits and State Pension.
+                
+                Council Tax: Local tax that funds services in your area.
+                
+                VAT: Value Added Tax charged on most goods and services.
+                
+                Capital Gains Tax: Tax on profit when you sell assets that have increased in value.`
+            },
+            healthcare: {
+                title: "Healthcare Services",
+                content: `The National Health Service (NHS) provides healthcare for all UK residents. Services include:
+                GP Services: Your local doctor for routine healthcare needs.
+                
+                Hospital Care: Both emergency and planned treatments.
+                
+                Mental Health Services: Support for mental health conditions.
+                
+                Prescriptions: Medicine prescribed by NHS doctors.
+                
+                Dental Care: NHS dentists provide subsidized treatment.`
+            },
+            education: {
+                title: "Education System",
+                content: `The UK education system offers various opportunities from early years to higher education:
+                Primary Education: For children aged 5-11.
+                
+                Secondary Education: For students aged 11-16.
+                
+                Further Education: College courses and vocational training.
+                
+                Higher Education: University degrees and professional qualifications.
+                
+                Adult Learning: Continuing education and professional development.`
+            },
+            immigration: {
+                title: "Immigration Guidelines",
+                content: `Information about moving to and staying in the UK:
+                Visas: Different types for work, study, family, and tourism.
+                
+                Settlement: Requirements for permanent residence.
+                
+                Citizenship: Process of becoming a British citizen.
+                
+                Right to Work: Documentation needed for employment.
+                
+                Family Migration: Rules for bringing family members to the UK.`
+            },
+            business: {
+                title: "Business Support",
+                content: `Resources for starting and running a business:
+                Starting a Business: Registration, legal requirements, and planning.
+                
+                Business Taxes: Corporation tax, VAT, and employment taxes.
+                
+                Employment Law: Rights and responsibilities as an employer.
+                
+                Funding and Support: Government grants and business support programs.
+                
+                International Trade: Import/export guidance and regulations.`
+            },
+            transport: {
+                title: "Transport Information",
+                content: `Transportation services and infrastructure:
+                Public Transport: Trains, buses, and local transport services.
+                
+                Driving: Licenses, vehicle registration, and road safety.
+                
+                Cycling: Infrastructure and safety guidelines.
+                
+                Air Travel: Airports and aviation regulations.
+                
+                Maritime: Ports and waterway transportation.`
+            }
+        };
+
+        function showPage(pageId) {
+
+            document.querySelectorAll('.content-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            const selectedPage = document.getElementById(pageId + '-page');
+            const sidebarItem = document.querySelector(`[data-page="${pageId}"]`);
+            
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+            }
+            if (sidebarItem) {
+                sidebarItem.classList.add('active');
+            }
+
+            document.querySelector('.content-grid').style.display = 'none';
+        }
+
+        function showDefaultContent() {
+            document.querySelector('.content-grid').style.display = 'grid';
+            
+            document.querySelectorAll('.content-page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                item.classList.remove('active');
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const contentArea = document.querySelector('.main-content');
+            
+            Object.keys(pageContent).forEach(pageId => {
+                const page = document.createElement('div');
+                page.id = pageId + '-page';
+                page.className = 'content-page';
+                page.innerHTML = `
+                    <h1>${pageContent[pageId].title}</h1>
+                    <p style="white-space: pre-line">${pageContent[pageId].content}</p>
+                `;
+                contentArea.appendChild(page);
+            });
+
+            document.querySelectorAll('.sidebar-item').forEach(item => {
+                const pageId = item.textContent.toLowerCase();
+                item.setAttribute('data-page', pageId);
+                item.addEventListener('click', () => showPage(pageId));
+            });
+
+            document.querySelector('.home-button').addEventListener('click', () => {
+                showDefaultContent();
+                showMain();
+            });
+        });
+    </script>
+</head>
+<body>
